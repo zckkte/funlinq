@@ -110,5 +110,11 @@ namespace Functional
                 .GroupBy(x => x.Item2).OrderBy(x => x.Key) //Group by column index
                 .Select(x => x.Select(y => y.Item1));
         }
+        
+        public static Tuple<IEnumerable<TFirst>, IEnumerable<TSecond>> 
+            Unzip<TFirst, TSecond> (this IEnumerable<Tuple<TFirst,TSecond>> source) 
+        { 
+            return new Tuple<IEnumerable<TFirst>, IEnumerable<TSecond>>(source.Select(x => x.Item1), source.Select(x => x.Item2));
+        }
     }
 }
