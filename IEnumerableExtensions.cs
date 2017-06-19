@@ -72,5 +72,26 @@ namespace Functional
                 yield return source.Current; 
             }
         } 
+        
+        public static IEnumerable<IEnumerable<TSource>> Break<TSource>(this IEnumerable<TSource> source,
+                    Predicate<TSource> predicate)
+        {
+            using (var enumerator = source.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    yield return BreakWhere(enumerator, predicate);
+                }
+            }
+        }
+        
+        private static IEnumerable<T> BreakWhere<T>(IEnumerator<T> enumerator,
+                          Predicate<T> predicate)
+        {
+            do
+            {
+                yield return enumerator.Current;
+            } while (!predicate(enumerator.Current) && enumerator.MoveNext());
+        }
     }
 }
