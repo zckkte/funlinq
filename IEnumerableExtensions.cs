@@ -6,7 +6,6 @@ namespace Functional
 {
     public static class IEnumerableExtensions
     {
-                                          
         public static IEnumerable<TResult> LeftOuterJoin<TOuter, TInner, TKey, TResult>(
             this IEnumerable<TOuter> outer,
             IEnumerable<TInner> inner,
@@ -101,6 +100,15 @@ namespace Functional
             var negatives = source.Where(item => !predicate(item));
             return new Tuple<IEnumerable<TSource>, IEnumerable<TSource>>(positives, negatives);
         
+        }
+        
+        public static IEnumerable<IEnumerable<TSource>>
+            Transpose<TSource>(this IEnumerable<IEnumerable<TSource>> source)
+        {
+            return source
+                .SelectMany(x => x.Select((item, columnIndex) => new Tuple<TSource, int>(item, columnIndex)))
+                .GroupBy(x => x.Item2).OrderBy(x => x.Key) //Group by column index
+                .Select(x => x.Select(y => y.Item1));
         }
     }
 }
