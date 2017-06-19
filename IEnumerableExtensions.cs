@@ -93,5 +93,14 @@ namespace Functional
                 yield return enumerator.Current;
             } while (!predicate(enumerator.Current) && enumerator.MoveNext());
         }
+        
+        public static Tuple<IEnumerable<TSource>, IEnumerable<TSource>> 
+            Partition<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            var positives = source.Where(predicate);
+            var negatives = source.Where(item => !predicate(item));
+            return new Tuple<IEnumerable<TSource>, IEnumerable<TSource>>(positives, negatives);
+        
+        }
     }
 }
