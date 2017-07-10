@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Functional
+namespace FunLinq
 {
-    public static class IEnumerableExtensions
+    public static class EnumerableExtensions
     {
         public static IEnumerable<TResult> LeftOuterJoin<TOuter, TInner, TKey, TResult>(
             this IEnumerable<TOuter> outer,
